@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const VaidyaApp());
 }
 
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final response = await http.post(
         Uri.parse('https://openrouter.ai/api/v1/chat/completions'),
         headers: {
-          'Authorization': 'Bearer YOUR_OPENROUTER_API_KEY',
+          'Authorization': 'Bearer YOUR_API_KEY_HERE',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
@@ -55,8 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'messages': [
             {
               'role': 'system',
-              'content':
-                  'You are VaidyaAI, a helpful health assistant for rural Indian users. When a user describes symptoms, explain what the issue might be in simple language, suggest basic home remedies if appropriate, and always recommend consulting a doctor for confirmation. Never give a definitive diagnosis. Always add a disclaimer at the end.'
+              'content': 'You are VaidyaAI, a helpful health assistant for rural Indian users. Always respond in the same language the user writes in. If they write in Hindi, respond in Hindi. If they write in English, respond in English. When a user describes symptoms, explain what the issue might be in simple language, suggest basic home remedies if appropriate, and always recommend consulting a doctor for confirmation. Never give a definitive diagnosis. Always add a disclaimer at the end.'
             },
             {'role': 'user', 'content': _controller.text}
           ]
@@ -139,3 +139,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
